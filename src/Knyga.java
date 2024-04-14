@@ -6,6 +6,7 @@ public class Knyga {
     public void setBookAuthor(String bookAuthor) { this.bookAuthor = bookAuthor;}
     public void setYearPublished(int yearPublished) { this.yearPublished = yearPublished;}
     public void setReaderID(int readerID) { this.readerID = readerID;}
+    public String getBookTitle() { return bookTitle;}
 
     public void setBook(String bookTitle, String bookAuthor, int yearPublished, int readerID){
         this.bookTitle = bookTitle;

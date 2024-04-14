@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
@@ -21,32 +22,73 @@ public class Main {
 //        arba jei nepavyksta tinkamai įvesti duomenų.
 
         Scanner scanner = new Scanner(System.in);
+        Knyga book = new Knyga();
+        Biblioteka library = new Biblioteka();
+        String title; //title of the book you are looking for
+        int identification = 0; // reader ID
+        boolean foundBook = false;
         String choice = "";
         do{
-            System.out.println("Pasirinkite veiksma: ");
-            System.out.println("(1)- prideti knyga, (2)- prideti knyga i biblioteka, (3)- pasiimti knyga is bibliotekos, (0)- pabaiga");
+            System.out.println("Pasirinkite veiksmą: ");
+            System.out.println("(1)- pridėti knygą, (2)- pridėti knygą į biblioteką, (3)- pasiimti knygą iš bibliotekos, (0)- pabaiga");
             choice = scanner.nextLine();
             switch (choice) {
                 case "1":
-                    Knyga book = new Knyga();
-                    System.out.println("Iveskite nauja knyga: (pavadinimas), (autorius), (leidimo metai) :");
+                    System.out.println("Įveskite naują knygą: (pavadinimas), (autorius), (leidimo metai) :");
                     book.setBookTitle(scanner.nextLine());
                     book.setBookAuthor(scanner.nextLine());
                     book.setYearPublished(scanner.nextInt());
                     book.setReaderID(0); // id is 0, no one reader has didn't take the book yet
-                    System.out.print("Jusu naujai ivesta knyga yra: ");
+                    System.out.print("Jusu naujai įvesta knyga yra: ");
                     book.bookInfo(book); //show book info
                     scanner.nextLine();
                     System.out.println();
                     break;
                 case "2":
+                    if (book.getBookTitle() == null) {
+                        System.out.println("Knyga dar neįvesta."); // book title is empty
+                        break;
+                    }
+                    //need to check is the book already in the library list
+                    //library.addBookToList(book);
+                    library.getBookList().add(book);
+                    System.out.println("Knyga sėkmingai pridėta į bibliotekos sąrašą.");
                     break;
                 case "3":
+                    System.out.println("Įveskite savo skaitytojo ID numerį: ");
+                    identification = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("Įveskite norimos knygos pavadinimą: ");
+                    title = scanner.nextLine();
+
+                    String pavadinimas;
+                    for(int i = 0; i < library.getBookList().size(); i++){
+                        pavadinimas = library.getBookList().get(i).getBookTitle();
+                        System.out.println(pavadinimas);
+                    }
+                    System.out.println();
+                    System.out.println(library.getBookList());
+                    System.out.println();
+
+                    /*for (Knyga wantedBook : library.getBookList()){
+                        //System.out.println(wantedBook.getBookTitle());
+                        //System.out.println(library.getBookList().get(wantedBook) wantedBook.getBookTitle());
+                        if(wantedBook.getBookTitle().equals(title)){
+                            foundBook = true;
+                            //library.getBookList().
+                            System.out.println("Radome jūsų knygą: ");
+                            break;
+                        }
+                    }*/
+
+                    if(!foundBook) {
+                        System.out.println("Neradome jūsų ieškomos knygos.");
+                    }
                     break;
                 case "0":
                     break;
                 default:
-                    System.out.println("Neteisingas pasirinkimas, bandykite dar karta.");
+                    System.out.println("Neteisingas pasirinkimas, bandykite dar kartą.");
             }
         }while(!choice.equals("0"));
 
