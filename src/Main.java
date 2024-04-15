@@ -26,14 +26,16 @@ public class Main {
         Biblioteka library = new Biblioteka();
         String title; //title of the book you are looking for
         int identification = 0; // reader ID
-        boolean foundBook = false;
+        boolean foundBook;
         String choice = "";
         do{
             System.out.println("Pasirinkite veiksmą: ");
-            System.out.println("(1)- pridėti knygą, (2)- pridėti knygą į biblioteką, (3)- pasiimti knygą iš bibliotekos, (0)- pabaiga");
+            System.out.println("(1)- pridėti knygą, (2)- pridėti knygą į biblioteką, (3)- pasiimti knygą iš bibliotekos,");
+            System.out.println("(4)- grąžinti knygą, (0)- pabaiga");
             choice = scanner.nextLine();
             switch (choice) {
                 case "1":
+                    book = new Knyga();
                     System.out.println("Įveskite naują knygą: (pavadinimas), (autorius), (leidimo metai) :");
                     book.setBookTitle(scanner.nextLine());
                     book.setBookAuthor(scanner.nextLine());
@@ -55,32 +57,49 @@ public class Main {
                     System.out.println("Knyga sėkmingai pridėta į bibliotekos sąrašą.");
                     break;
                 case "3":
+                    foundBook = false;
                     System.out.println("Įveskite savo skaitytojo ID numerį: ");
                     identification = scanner.nextInt();
                     scanner.nextLine();
                     System.out.println("Įveskite norimos knygos pavadinimą: ");
                     title = scanner.nextLine();
-
-                    String pavadinimas;
-                    for(int i = 0; i < library.getBookList().size(); i++){
-                        pavadinimas = library.getBookList().get(i).getBookTitle();
-                        System.out.println(pavadinimas);
-                    }
-                    System.out.println();
-                    System.out.println(library.getBookList());
-                    System.out.println();
-
-                    /*for (Knyga wantedBook : library.getBookList()){
-                        //System.out.println(wantedBook.getBookTitle());
-                        //System.out.println(library.getBookList().get(wantedBook) wantedBook.getBookTitle());
-                        if(wantedBook.getBookTitle().equals(title)){
+                    for (Knyga wantedBook : library.getBookList()){
+                        if(wantedBook.getBookTitle().equals(title)){ //search for book by title
                             foundBook = true;
-                            //library.getBookList().
                             System.out.println("Radome jūsų knygą: ");
+                            if(wantedBook.getReaderID() == 0){  // if id=0, book in the library
+                                wantedBook.setReaderID(identification);
+                                wantedBook.bookInfo(wantedBook);
+                                break;
+                            } else {
+                                System.out.println("Jūsų ieškomą knygą šiuo metu skaito kitas klientas, atsiprašome.");
+                            }
                             break;
                         }
-                    }*/
+                    }
 
+                    if(!foundBook) {
+                        System.out.println("Neradome jūsų ieškomos knygos.");
+                    }
+                    break;
+                case "4":
+                    foundBook = false;
+                    System.out.println("Įveskite grąžinamos knygos pavadinimą: ");
+                    title = scanner.nextLine();
+                    for (Knyga wantedBook : library.getBookList()){
+                        if(wantedBook.getBookTitle().equals(title)){ //search for book by title
+                            foundBook = true;
+                            System.out.println("Radome jūsų knygą: ");
+                            if(wantedBook.getReaderID() != 0){  // if id=0, book in the library
+                                wantedBook.setReaderID(0); //after return, the book is not assigned to any ID
+                                wantedBook.bookInfo(wantedBook);
+                                break;
+                            } else {
+                                System.out.println("Jūsų ieškoma knyga jau grąžinta.");
+                            }
+                            break;
+                        }
+                    }
                     if(!foundBook) {
                         System.out.println("Neradome jūsų ieškomos knygos.");
                     }

@@ -7,6 +7,7 @@ public class Knyga {
     public void setYearPublished(int yearPublished) { this.yearPublished = yearPublished;}
     public void setReaderID(int readerID) { this.readerID = readerID;}
     public String getBookTitle() { return bookTitle;}
+    public int getReaderID() { return readerID;}
 
     public void setBook(String bookTitle, String bookAuthor, int yearPublished, int readerID){
         this.bookTitle = bookTitle;
@@ -15,7 +16,7 @@ public class Knyga {
         this.readerID = readerID;
     }
     public void bookInfo(Knyga book){
-        System.out.println(book.bookTitle + " " + bookAuthor + " " + yearPublished);
+        System.out.println(book.bookTitle + " " + bookAuthor + " " + yearPublished + " " + readerID);
     }
 
 
